@@ -1,21 +1,15 @@
-function init()
+function search(str)
 {
-    for(var id in data)
+    for(id in fcen)
     {
-        food=document.getElementById("foodTemplate").cloneNode(true);
-        food.id = "";
-        //food.querySelector(".");
-        document.body.appendChild(food);
+        var name = fcen[id].name;
+        if(name.toLowerCase().includes(str.toLowerCase()))
+        {
+            document.getElementById(id).style.display = "block"
+        }
+        else
+        {
+            document.getElementById(id).style.display = "none"
+        }
     }
-}
-
-function downloadObjectAsJson(exportObj, exportName)
-{
-    var dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(exportObj));
-    var downloadAnchorNode = document.createElement('a');
-    downloadAnchorNode.setAttribute("href",     dataStr);
-    downloadAnchorNode.setAttribute("download", exportName + ".json");
-    document.body.appendChild(downloadAnchorNode);
-    // required for firefoxdownloadAnchorNode.click();downloadAnchorNode.remove();
-}
 }

@@ -41,17 +41,21 @@ function fcenSearch(res)
     var alimentTemplate = fs.readFileSync("aliment.html").toString();
     var nutrientTemplate = fs.readFileSync("nutrient.html").toString();
     
+        var max = 1500;
     for(id in fcen)
     {
+            max -= 1;
         var nutrients = "";
         for(nutrient in fcen[id].nutrients)
         {
             nutrients += mustache.render(nutrientTemplate, {name : nutrient, value: fcen[id].nutrients[nutrient]});
         };
-        body += mustache.render(alimentTemplate, {name : fcen[id].name, nutrients : nutrients});
+        body += mustache.render(alimentTemplate, {id : id, name : fcen[id].name, nutrients : nutrients});
+            if(max <= 0)
+                break;
     }
 
-    var page = htmlPage(["script.js"], ["styles.css"], "", body);
+    var page = htmlPage(["script.js", "fcen.js"], ["styles.css"], "", body);
     fs.writeFileSync("fcen.html", page);
     res.statusCode = 200;
     res.end(page);
