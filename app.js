@@ -21,6 +21,14 @@ const server = http.createServer((req, res) => {
     {
         fcenSearchStatic(res);
     }
+    else if(url.pathname == "/fcen/searchStaticMin")
+    {
+        fcenSearchStaticMin(res);
+    }
+    else if(url.pathname == "/fcen/searchJsGen")
+    {
+        fcenSearchJsGen(res);
+    }
     else
     {
         res.statusCode = 404;
@@ -41,18 +49,14 @@ function fcenSearch(res)
     var alimentTemplate = fs.readFileSync("aliment.html").toString();
     var nutrientTemplate = fs.readFileSync("nutrient.html").toString();
     
-        var max = 1500;
     for(id in fcen)
     {
-            max -= 1;
         var nutrients = "";
         for(nutrient in fcen[id].nutrients)
         {
             nutrients += mustache.render(nutrientTemplate, {name : nutrient, value: fcen[id].nutrients[nutrient]});
         };
         body += mustache.render(alimentTemplate, {id : id, name : fcen[id].name, nutrients : nutrients});
-            if(max <= 0)
-                break;
     }
 
     var page = htmlPage(["script.js", "fcen.js"], ["styles.css"], "", body);
@@ -65,6 +69,16 @@ function fcenSearchStatic(res)
 {
     res.statusCode = 200;
     res.end(fs.readFileSync("fcen.html"));
+}
+function fcenSearchStaticMin(res)
+{
+    res.statusCode = 200;
+    res.end(fs.readFileSync("fcenMin.html"));
+}
+function fcenSearchJsGen(res)
+{
+    res.statusCode = 200;
+    res.end(fs.readFileSync("fcenJsGen.html"));
 }
 
 function htmlPage(scripts, styles, head, body)
