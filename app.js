@@ -1,6 +1,27 @@
 const http = require('http');
 const fs = require('fs');
 const Mustache = require('mustache');
+const minify = function(str)
+{
+    return require('html-minifier').minify(str, {
+    caseSensitive: true,
+    collapseBooleanAttributes: true,
+    collapseInlineTagWhitespace: true,
+    collapseWhitespace: true,
+    conservativeCollapse: true,
+    minifyCSS: true,
+    minifyJS: true,
+    removeAttributeQuotes: true,
+    removeComments: true,
+    removeEmptyAttributes: true,
+    removeRedundantAttributes: true,
+    removeScriptTypeAttributes: true,
+    removeStyleLinkTypeAttributes: true,
+    removeTagWhitespace: true,
+    sortAttributes: true,
+    sortClassName: true,
+    });
+}
 
 const hostname = '127.0.0.1';
 const port = 3000;
@@ -12,6 +33,10 @@ const server = http.createServer((req, res) => {
     if(url.pathname == "/fcen/raw")
     {
         fcenJson(res);
+    }
+    if(url.pathname == "/fcen/clientLowGen")
+    {
+        clientLowGen(res);
     }
     else if(url.pathname == "/fcen/serverGen")
     {
@@ -41,6 +66,19 @@ function fcenJson(res)
     res.statusCode = 200;
     res.setHeader('Content-Type', 'application/json');
     res.end(data);
+}
+
+function clientLowGen(res)
+{
+    var head = "<script>"
+    head += "var alimentTemplate = '" + minify(fs.readFileSync("aliment.html").toString()) + "';";
+    head += "var nutrientTemplate = '" + minify(fs.readFileSync("nutrient.html").toString()) + "';";
+    head += "</script>"
+
+    var page = htmlPage(["mustache.js", "fcen.js", "fcenClientLowGen.js"], ["styles.css"], head, "");
+
+    res.statusCode = 200;
+    res.end(page);
 }
 
 function fcenServerGen(res)
