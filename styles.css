@@ -8,11 +8,40 @@
     display: none;
 }
 
-.nutrient
+.area
 {
     background: lightgray;
+    margin: 10px;
+    padding: 10px;
+}
+
+.button
+{
+    background: white;
     padding: 5px;
-    padding-right: 0px;
-    width: 320px;
+    border: 1px solid darkgray;
+    cursor: pointer;
+}
+
+.nutrient
+{
+    background: #e6e6e6;
+    padding-left: 5px;
+    padding-top: 5px;
+    width: 250px;
+    height: 60px;
     margin: 5px;
+    overflow: hidden;
+}
+
+.nutrient .boxes
+{
+    width: 20px;
+    vertical-align: top;
+}
+
+.nutrient .name
+{
+    width: 220px;
+    margin-top: 3px;
 }

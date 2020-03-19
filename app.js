@@ -73,9 +73,11 @@ function clientLowGen(res)
     var head = "<script>"
     head += "var alimentTemplate = '" + minify(fs.readFileSync("aliment.html").toString()) + "';";
     head += "var nutrientTemplate = '" + minify(fs.readFileSync("nutrient.html").toString()) + "';";
+    head += "var nutrientNameTemplate = '" + minify(fs.readFileSync("nutrientName.html").toString()) + "';";
+    head += "var searchHtml = '" + minify(fs.readFileSync("search.html").toString()) + "';";
     head += "</script>"
 
-    var page = htmlPage(["mustache.js", "fcen.js", "fcenClientLowGen.js"], ["styles.css"], head, fs.readFileSync("search.html").toString());
+    var page = htmlPage(["mustache.js", "fcen.js", "nutrientNames.js", "fcenClientLowGen.js"], ["styles.css"], head, "");
 
     res.statusCode = 200;
     res.end(page);

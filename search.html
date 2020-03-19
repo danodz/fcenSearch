@@ -1,1 +1,11 @@
-<input onkeyup="filterFoodName()">
+<div class="area">
+    <input class="searchInput" onkeyup="filterFoodName()">
+    <input onchange="filterFoodName()" class="caseSensitivity" type="checkbox">Sensible à la casse
+    <div onclick="toggleFilter()" class="button inline">Filter les nutriments</div>
+</div>
+<div class="area nutrientFilters hidden">
+    {{{nutrientNames}}}
+</div>
+<div>
+    {{{aliments}}}
+</div>

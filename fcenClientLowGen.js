@@ -1,10 +1,16 @@
-var body = '';
-
-
-for(id in fcen)
+var nutNamesHtml = "";
+for(var id in nutrientNames)
 {
-    body += Mustache.render(alimentTemplate, {id : id, name : fcen[id].name});
+    var name = nutrientNames[id].nutrient_web_name;
+    nutNamesHtml += Mustache.render(nutrientNameTemplate, {name : name});
 }
+
+var alimHtml = "";
+for(var id in fcen)
+{
+    alimHtml += Mustache.render(alimentTemplate, {id : id, name : fcen[id].name});
+}
+
 
 function toggleNuts()
 {
@@ -26,11 +32,19 @@ function toggleNuts()
     }
 }
 
+function toggleFilter()
+{
+    document.getElementsByClassName("nutrientFilters")[0].classList.toggle("hidden");
+}
+
 function filterFoodName()
 {
+    var caseSensible = document.getElementsByClassName("caseSensitivity")[0].checked;
+    var search = caseSensible? document.getElementsByClassName("searchInput")[0].value:document.getElementsByClassName("searchInput")[0].value.toLowerCase();
     for(id in fcen)
     {
-        if(fcen[id].name.includes(event.target.value))
+        var name = caseSensible? fcen[id].name:fcen[id].name.toLowerCase();
+        if(name.includes(search))
         {
             document.getElementById(id).style.display = 'block'
         }
@@ -42,5 +56,5 @@ function filterFoodName()
 }
 
 document.addEventListener('DOMContentLoaded', function() {
-    document.body.innerHTML += body;
+    document.body.innerHTML += Mustache.render(searchHtml, {nutrientNames : nutNamesHtml, aliments: alimHtml});
 } , false);
