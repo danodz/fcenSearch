@@ -75,7 +75,7 @@ function clientLowGen(res)
     head += "var nutrientTemplate = '" + minify(fs.readFileSync("nutrient.html").toString()) + "';";
     head += "</script>"
 
-    var page = htmlPage(["mustache.js", "fcen.js", "fcenClientLowGen.js"], ["styles.css"], head, "");
+    var page = htmlPage(["mustache.js", "fcen.js", "fcenClientLowGen.js"], ["styles.css"], head, fs.readFileSync("search.html").toString());
 
     res.statusCode = 200;
     res.end(page);

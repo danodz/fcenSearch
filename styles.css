@@ -1,9 +1,18 @@
 .inline
 {
-    display: inline;
+    display: inline-block;
 }
 
 .hidden
 {
     display: none;
+}
+
+.nutrient
+{
+    background: lightgray;
+    padding: 5px;
+    padding-right: 0px;
+    width: 320px;
+    margin: 5px;
 }
