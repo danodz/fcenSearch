@@ -1,7 +1,7 @@
-<div class="inline nutrient">
+<div class="inline nutrient" data-nutid="{{id}}">
     <div class="inline boxes">
-        <input type="checkbox">
-        <input type="checkbox">
+        <input onchange="showNutrient()" type="checkbox">
+        <input onchange="hideNutrient()" type="checkbox">
     </div>
     <div class="inline name">
         {{name}}
