@@ -1,8 +1,12 @@
 var nutNamesHtml = "";
-for(var id in nutrientNames)
+for(var groupId in nutrientGroups)
 {
-    var nutrient = nutrientNames[id];
-    nutNamesHtml += Mustache.render(nutrientNameTemplate, {name : nutrient.nutrient_web_name, id: nutrient.nutrient_name_id});
+    var group = nutrientGroups[groupId];
+    nutNamesHtml += Mustache.render(nutrientGroupTemplate, group);
+    for(var nutId in group.nutrients)
+    {
+        nutNamesHtml += Mustache.render(nutrientNameTemplate, nutrientNames[group.nutrients[nutId]]);
+    }
 }
 
 var alimHtml = "";
@@ -11,20 +15,34 @@ for(var id in fcen)
     alimHtml += Mustache.render(alimentTemplate, {id : id, name : fcen[id].name});
 }
 
+function nutrientValueHtml(alimId, nutId)
+{
+    if(fcen[alimId].nutrients[nutId])
+    {
+        var nutrient = nutrientNames[nutId];
+        nutrient.value = fcen[alimId].nutrients[nutId];
+        return Mustache.render(nutrientTemplate, nutrient);
+    }
+    return "";
+}
 
 function toggleNuts()
 {
+    var nutrients = "";
     var root = event.target.parentNode.parentNode;
     var id = root.id
-    var nutrients = "";
     var nutrition = root.getElementsByClassName("nutrition")[0];
     if(root.getElementsByClassName("nutrition")[0].getElementsByClassName("nutrient").length == 0)
     {
-        for(nutId in fcen[id].nutrients)
+        for(var groupId in nutrientGroups)
         {
-            var nutrient = fcen[id].nutrients[nutId];
-            nutrients += Mustache.render(nutrientTemplate, {name : nutrient.name, value: nutrient.value, id: nutId});
-        };
+            var group = nutrientGroups[groupId];
+            nutrients += Mustache.render(nutrientGroupTemplate, group);
+            for(var nutId of group.nutrients)
+            {
+                nutrients += nutrientValueHtml(id, nutId);
+            }
+        }
         nutrition.innerHTML = nutrients;
     }
     else
@@ -81,9 +99,7 @@ function showNutrient()
             }
             else
             {
-                var nutrient = fcen[i].nutrients[nutId];
-                var nutData = { name : nutrient.name, value : nutrient.value, id: nutId}
-                document.getElementById(i).getElementsByClassName("nutritionShow")[0].innerHTML += Mustache.render(nutrientTemplate, nutData);
+                document.getElementById(i).getElementsByClassName("nutritionShow")[0].innerHTML += nutrientValueHtml(i, nutId);
             }
         }
     }
