@@ -34,14 +34,23 @@ input
     padding-left: 5px;
     padding-top: 5px;
     width: 250px;
-    height: 60px;
+    height: 70px;
     margin: 5px;
     overflow: hidden;
 }
 
+.nutrientGroup
+{
+    background: darkgray;
+    padding: 5px;
+    color: white;
+    margin-top: 15px;
+    margin-bottom: 5px;
+}
+
 .nutrientFilters .nutrient
 {
-    height: 70px;
+    height: 110px;
 }
 
 .filterField
@@ -67,4 +76,5 @@ input
 {
     width: 220px;
     margin-top: 3px;
+    height: 40px;
 }

@@ -29,7 +29,7 @@ function nutrientValueHtml(alimId, nutId)
 function toggleNuts()
 {
     var nutrients = "";
-    var root = event.target.parentNode.parentNode;
+    var root = event.target.closest(".aliment");
     var id = root.id
     var nutrition = root.getElementsByClassName("nutrition")[0];
     if(root.getElementsByClassName("nutrition")[0].getElementsByClassName("nutrient").length == 0)
@@ -69,7 +69,7 @@ function filterFoods()
         var max = tresholds[i].getElementsByClassName("max")[0];
         if(min.value || max.value)
         {
-            var id = tresholds[i].parentNode.getAttribute("data-nutid");
+            var id = tresholds[i].closest(".nutrient").getAttribute("data-nutid");
             nutrients[id] = {min : min.value ? min.value : 0, max : max.value ? max.value : Infinity};
         }
     }
@@ -106,7 +106,7 @@ function filterFoods()
 
 function showNutrient()
 {
-    var nutId = event.target.parentNode.parentNode.getAttribute("data-nutid");
+    var nutId = event.target.closest(".nutrient").getAttribute("data-nutid");
     var aliments = document.getElementsByClassName("aliment");
     for(i in fcen)
     {
@@ -127,7 +127,7 @@ function showNutrient()
 
 function hideNutrient()
 {
-    var nutId = event.target.parentNode.parentNode.getAttribute("data-nutid");
+    var nutId = event.target.closest(".nutrient").getAttribute("data-nutid");
     if (event.target.checked)
     {
         var node = document.createElement('style');
