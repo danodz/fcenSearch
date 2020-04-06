@@ -80,6 +80,7 @@ function clientLowGen(res)
 
     var page = htmlPage(["mustache.js", "fcen.js", "nutrientNames.js", "nutrientGroups.js", "fcenClientLowGen.js"], ["styles.css"], head, "");
 
+    fs.writeFileSync("fcenSearch.html", page);
     res.statusCode = 200;
     res.end(page);
 }

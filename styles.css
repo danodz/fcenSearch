@@ -1,3 +1,8 @@
+input
+{
+    margin: 0;
+}
+
 .inline
 {
     display: inline-block;
@@ -39,6 +44,12 @@
     height: 70px;
 }
 
+.filterField
+{
+    margin-left: 7px;
+    text-align: center;
+}
+
 .nutrient .boxes
 {
     vertical-align: top;
@@ -46,10 +57,9 @@
 
 .inline.tresholds .treshold
 {
-    width: 75px;
+    width: 60px;
     padding: 1px;
     border: none;
-    margin-left: 10px;
 }
 
 .nutrient .name

@@ -58,8 +58,7 @@ function toggleFilter()
 
 function filterFoods()
 {
-    var caseSensible = document.getElementsByClassName("caseSensitivity")[0].checked;
-    var search = caseSensible? document.getElementsByClassName("searchInput")[0].value:document.getElementsByClassName("searchInput")[0].value.toLowerCase();
+    var search = document.getElementsByClassName("searchInput")[0].value.toLowerCase();
     search = search.split(/[\s,]+/);
     var nutrients = {};
 
@@ -77,7 +76,7 @@ function filterFoods()
 
     for(var id in fcen)
     {
-        var name = caseSensible? fcen[id].name:fcen[id].name.toLowerCase();
+        var name = fcen[id].name.toLowerCase();
         var match = true;
         for(i in search)
         {
