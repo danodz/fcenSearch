@@ -1,26 +1,26 @@
 <div class="inline nutrient" data-nutid="{{id}}">
+    <div class="inline name">
+        {{name}}
+    </div>
     <div class="inline boxes">
         <div class="inline filterField showNutrient">
-            <div class="legend">O</div>
+            <div class="legend">o</div>
             <input onchange="showNutrient()" type="checkbox">
         </div>
         <div class="inline filterField hideNutrient">
-            <div class="legend">X</div>
+            <div class="legend">x</div>
             <input onchange="hideNutrient()" type="checkbox">
         </div>
     </div>
     <div class="inline tresholds">
         <div class="inline filterField minField">
-            <div class="legend">Min</div>
+            <div class="legend">min</div>
             <input class="treshold min" onchange="filterFoods()">
         </div>
         <div class="inline filterField maxField">
-            <div class="legend">Max</div>
+            <div class="legend">max</div>
             <input class="treshold max" onchange="filterFoods()">
         </div>
         {{unit}}
-    </div>
-    <div class="inline name">
-        {{name}}
     </div>
 </div>
