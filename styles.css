@@ -34,10 +34,22 @@
     overflow: hidden;
 }
 
+.nutrientFilters .nutrient
+{
+    height: 70px;
+}
+
 .nutrient .boxes
 {
-    width: 20px;
     vertical-align: top;
+}
+
+.inline.tresholds .treshold
+{
+    width: 75px;
+    padding: 1px;
+    border: none;
+    margin-left: 10px;
 }
 
 .nutrient .name
