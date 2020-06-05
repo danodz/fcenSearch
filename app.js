@@ -76,6 +76,7 @@ function clientLowGen(res)
     head += "var nutrientNameTemplate = '" + minify(fs.readFileSync("nutrientName.html").toString()) + "';";
     head += "var nutrientGroupTemplate = '" + minify(fs.readFileSync("nutrientGroup.html").toString()) + "';";
     head += "var searchHtml = '" + minify(fs.readFileSync("search.html").toString()) + "';";
+    head += "var measureHtml = '" + minify(fs.readFileSync("measure.html").toString()) + "';";
     head += "</script>"
 
     var page = htmlPage(["mustache.js", "fcen.js", "nutrientNames.js", "nutrientGroups.js", "fcenClientLowGen.js"], ["styles.css"], head, "");

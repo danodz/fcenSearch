@@ -12,16 +12,20 @@ for(var groupId in nutrientGroups)
 var alimHtml = "";
 for(var id in fcen)
 {
-    alimHtml += Mustache.render(alimentTemplate, {id : id, name : fcen[id].name});
+    measures = "";
+    for(var i=0; i<fcen[id].measures.length; i++)
+    {
+        measures += Mustache.render(measureHtml, fcen[id].measures[i]);
+    }
+    alimHtml += Mustache.render(alimentTemplate, {id : id, name : fcen[id].name, measures : measures});
 }
 
-function nutrientValueHtml(alimId, nutId, multiplier)
+function nutrientValueHtml(alimId, nutId)
 {
     if(fcen[alimId].nutrients[nutId] != undefined)
     {
         var nutrient = nutrientNames[nutId];
         nutrient.value = fcen[alimId].nutrients[nutId];
-        nutrient.customValue = fcen[alimId].nutrients[nutId] * multiplier;
         return Mustache.render(nutrientTemplate, nutrient);
     }
     return "";
@@ -33,7 +37,6 @@ function toggleNuts()
     var root = event.target.closest(".aliment");
     var id = root.id
     var nutrition = root.getElementsByClassName("nutrition")[0];
-    var multiplier = root.getElementsByClassName("setWeight")[0].value/100;
     if(root.getElementsByClassName("nutrition")[0].getElementsByClassName("nutrient").length == 0)
     {
         for(var groupId in nutrientGroups)
@@ -42,10 +45,11 @@ function toggleNuts()
             nutrients += Mustache.render(nutrientGroupTemplate, group);
             for(var nutId of group.nutrients)
             {
-                nutrients += nutrientValueHtml(id, nutId, multiplier);
+                nutrients += nutrientValueHtml(id, nutId);
             }
         }
         nutrition.innerHTML = nutrients;
+        updateMeasure(root);
     }
     else
     {
@@ -106,15 +110,26 @@ function filterFoods()
     }
 }
 
-function updateWeight()
+function updateMeasure(root)
 {
-    var root = event.target.closest(".aliment");
+    var factor = root.getElementsByClassName("measure")[0].value/100;
     var nutrients = root.getElementsByClassName("nutrient");
     for(var i=0; i<nutrients.length; i++)
     {
         var nutrient = nutrients[i];
-        nutrient.getElementsByClassName("customValue")[0].innerHTML = fcen[root.id].nutrients["_" + nutrient.className.split("_")[1].split(" ")[0]] * event.target.value/100;
+        nutrient.getElementsByClassName("customValue")[0].innerHTML = fcen[root.id].nutrients["_" + nutrient.className.split("_")[1].split(" ")[0]] * factor;
     }
+}
+
+function measureInput()
+{
+    updateMeasure(event.target.closest(".aliment"));
+}
+
+function measureBtn(factor)
+{
+    event.target.parentElement.getElementsByClassName("measure")[0].value = factor;
+    updateMeasure(event.target.closest(".aliment"));
 }
 
 function showNutrient()
@@ -133,9 +148,9 @@ function showNutrient()
             }
             else
             {
-                var multiplier = root.getElementsByClassName("setWeight")[0].value/100;
-                root.getElementsByClassName("nutritionShow")[0].innerHTML += nutrientValueHtml(i, nutId, multiplier);
+                root.getElementsByClassName("nutritionShow")[0].innerHTML += nutrientValueHtml(i, nutId);
             }
+            updateMeasure(root);
         }
     }
 }

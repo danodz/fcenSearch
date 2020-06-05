@@ -2,6 +2,7 @@ const XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
 const fs = require('fs');
 var fcen = {};
 var nutrientNames = {};
+var writeReady = 1;
 
 var foodRequest = new XMLHttpRequest();
 foodRequest.open("GET", "https://aliments-nutrition.canada.ca/api/fichier-canadien-elements-nutritifs/food/?lang=fr&type=json", true);
@@ -11,9 +12,11 @@ foodRequest.onload = function (e) {
         var foodData = JSON.parse(foodRequest.responseText);
         for(var i = 0; i<foodData.length; i++)
         {
-            fcen[foodData[i].food_code] = {name : foodData[i].food_description, nutrients:{}};
+            fcen[foodData[i].food_code] = {name : foodData[i].food_description, nutrients:{}, measures:[]};
         }
         nutRequest.send(null);
+        measureRequest.send(null);
+        console.log("fcen done");
     }
 }
 
@@ -27,12 +30,41 @@ nutRequest.onload = function (e) {
         {
             fcen[nutData[i].food_code].nutrients["_" + nutData[i].nutrient_name_id] = nutData[i].nutrient_value;
         }
-        fs.writeFile("fcen.json", JSON.stringify(fcen), () => {console.log("fcen.json")})
-        fs.writeFile("fcen.js", "fcen = " + JSON.stringify(fcen) + ";", () => {console.log("fcen.js")})
-        console.log("done");
+        console.log("nut done");
+        fcenWrite();
     }
 }
-//foodRequest.send(null);
+
+var measureRequest = new XMLHttpRequest();
+measureRequest.open("GET", "https://aliments-nutrition.canada.ca/api/fichier-canadien-elements-nutritifs/servingsize/?lang=fr&type=json", true);
+measureRequest.onload = function (e) {
+    if (measureRequest.readyState === 4 && measureRequest.status === 200)
+    {
+        var measures = JSON.parse(measureRequest.responseText);
+        for(var i = 0; i<measures.length; i++)
+        {
+            if( measures[i].conversion_factor_value != 0)
+                fcen[measures[i].food_code].measures.push({name: measures[i].measure_name, factor: measures[i].conversion_factor_value * 100});
+        }
+        console.log("measure done");
+        fcenWrite();
+    }
+}
+foodRequest.send(null);
+
+function fcenWrite()
+{
+    if(writeReady == 0)
+    {
+        fs.writeFile("fcen.json", JSON.stringify(fcen), () => {console.log("fcen.json")})
+        fs.writeFile("fcen.js", "fcen = " + JSON.stringify(fcen) + ";", () => {console.log("fcen.js")})
+        console.log("written");
+    }
+    else
+    {
+        writeReady -= 1;
+    }
+}
 
 var nutrientGroups = {};
 var nutGroupsRequest = new XMLHttpRequest();
@@ -52,7 +84,7 @@ nutGroupsRequest.onload = function (e) {
         nutNamesRequest.send(null);
     }
 }
-nutGroupsRequest.send(null);
+//nutGroupsRequest.send(null);
 
 var nutrientNames = {};
 var nutNamesRequest = new XMLHttpRequest();
