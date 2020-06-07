@@ -56,7 +56,6 @@ function fcenWrite()
 {
     if(writeReady == 0)
     {
-        fs.writeFile("fcen.json", JSON.stringify(fcen), () => {console.log("fcen.json")})
         fs.writeFile("fcen.js", "fcen = " + JSON.stringify(fcen) + ";", () => {console.log("fcen.js")})
         console.log("written");
     }
@@ -109,8 +108,6 @@ nutNamesRequest.onload = function (e) {
         }
 
         fs.writeFile("nutrientNames.js", "nutrientNames = " + JSON.stringify(nutrientNames) + ";", () => {console.log("nutrientNames.js")})
-        fs.writeFile("nutrientNames.json", JSON.stringify(nutrientNames), () => {console.log("nutrientNames.json")});
         fs.writeFile("nutrientGroups.js", "nutrientGroups = " + JSON.stringify(nutrientGroups) + ";", () => {console.log("nutrientGroups.js")})
-        fs.writeFile("nutrientGroups.json", JSON.stringify(nutrientGroups), () => {console.log("nutrientGroups.json")});
     }
 }

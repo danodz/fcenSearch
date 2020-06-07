@@ -26,49 +26,19 @@ const minify = function(str)
 const hostname = '127.0.0.1';
 const port = 3000;
 
-const fcen = JSON.parse(fs.readFileSync('fcen.json'));
-
 const server = http.createServer((req, res) => {
     url = new URL(req.url, `http://${req.headers.host}`);
-    if(url.pathname == "/fcen/raw")
+    if(url.pathname == "/fcen/search")
     {
-        fcenJson(res);
-    }
-    if(url.pathname == "/fcen/clientLowGen")
-    {
-        clientLowGen(res);
-    }
-    else if(url.pathname == "/fcen/serverGen")
-    {
-        fcenServerGen(res);
-    }
-    else if(url.pathname == "/fcen/staticFile")
-    {
-        fcenStaticFile(res);
-    }
-    else if(url.pathname == "/fcen/staticMinFile")
-    {
-        fcenStaticMinFile(res);
-    }
-    else if(url.pathname == "/fcen/clientGen")
-    {
-        fcenClientGen(res);
-    }
-    else
+        fcenSearch(res);
+    } else
     {
         res.statusCode = 404;
         res.end("404");
     }
 });
 
-function fcenJson(res)
-{
-    res.statusCode = 200;
-    res.setHeader('Content-Type', 'application/json');
-    res.end(data);
-}
-
-function clientLowGen(res)
+function fcenSearch(res)
 {
     var head = "<script>"
     head += "var alimentTemplate = '" + minify(fs.readFileSync("aliment.html").toString()) + "';";
@@ -79,49 +49,10 @@ function clientLowGen(res)
     head += "var measureHtml = '" + minify(fs.readFileSync("measure.html").toString()) + "';";
     head += "</script>"
 
-    var page = htmlPage(["mustache.js", "fcen.js", "nutrientNames.js", "nutrientGroups.js", "fcenClientLowGen.js"], ["styles.css"], head, "");
+    var page = htmlPage(["mustache.js", "fcen.js", "nutrientNames.js", "nutrientGroups.js", "fcenSearch.js"], ["styles.css"], head, "");
 
     fs.writeFileSync("fcenSearch.html", page);
     res.statusCode = 200;
-    res.end(page);
-}
-
-function fcenServerGen(res)
-{
-    var body = "";
-    var alimentTemplate = fs.readFileSync("aliment.html").toString();
-    var nutrientTemplate = fs.readFileSync("nutrient.html").toString();
-    
-    for(id in fcen)
-    {
-        var nutrients = "";
-        for(nutrient in fcen[id].nutrients)
-        {
-            nutrients += Mustache.render(nutrientTemplate, {name : nutrient, value: fcen[id].nutrients[nutrient]});
-        };
-        body += Mustache.render(alimentTemplate, {id : id, name : fcen[id].name, nutrients : nutrients});
-    }
-
-    var page = htmlPage(["script.js", "fcen.js"], ["styles.css"], "", body);
-    fs.writeFileSync("fcen.html", page);
-    res.statusCode = 200;
-    res.end(page);
-}
-
-function fcenStaticFile(res)
-{
-    res.statusCode = 200;
-    res.end(fs.readFileSync("fcen.html"));
-}
-function fcenStaticMinFile(res)
-{
-    res.statusCode = 200;
-    res.end(fs.readFileSync("fcenMin.html"));
-}
-function fcenClientGen(res)
-{
-    res.statusCode = 200;
-    var page = htmlPage(["mustache.js", "fcen.js", "fcenClientGen.js"], ["styles.css"], "", "");
     res.end(page);
 }
 
