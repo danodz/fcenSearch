@@ -51,7 +51,7 @@ function fcenSearch(res)
 
     var page = htmlPage(["mustache.js", "fcen.js", "nutrientNames.js", "nutrientGroups.js", "fcenSearch.js"], ["styles.css"], head, "");
 
-    fs.writeFileSync("fcenSearch.html", page);
+    fs.writeFileSync("../danodz.github.io/index.html", page);
     res.statusCode = 200;
     res.end(page);
 }

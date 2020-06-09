@@ -96,26 +96,22 @@ function filterFoods()
                 match = false;
                 break;
             }
-            for(var i=0; i<exclude.length; i++)
+        }
+        for(var i=0; i<exclude.length; i++)
+        {
+            if(exclude[i] != "" && name.includes(exclude[i]))
             {
-                if(exclude[i] != "" && name.includes(exclude[i]))
-                {
-                    match = false;
-                    break;
-                }
-            }
-            if(!match)
+                match = false;
                 break;
-            for(var n in nutrients)
+            }
+        }
+        for(var n in nutrients)
+        {
+            if(fcen[id].nutrients[n] == undefined || fcen[id].nutrients[n] > nutrients[n].max || fcen[id].nutrients[n] < nutrients[n].min )
             {
-                if(fcen[id].nutrients[n] == undefined || fcen[id].nutrients[n] > nutrients[n].max || fcen[id].nutrients[n] < nutrients[n].min )
-                {
-                    match = false;
-                    break;
-                }
-            }
-            if(!match)
+                match = false;
                 break;
+            }
         }
 
         if(match)
