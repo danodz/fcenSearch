@@ -26,6 +26,11 @@ function nutrientValueHtml(alimId, nutId)
     {
         var nutrient = nutrientNames[nutId];
         nutrient.value = fcen[alimId].nutrients[nutId];
+        if(anref[nutId])
+        {
+            var dailyNeed = anref[nutId][document.getElementById("anrefCategories").value];
+            nutrient.percentage = Math.round((nutrient.value*100)/dailyNeed) + "%";
+        }
         return Mustache.render(nutrientTemplate, nutrient);
     }
     return "";
@@ -132,7 +137,14 @@ function updateMeasure(root)
     for(var i=0; i<nutrients.length; i++)
     {
         var nutrient = nutrients[i];
-        nutrient.getElementsByClassName("customValue")[0].innerHTML = fcen[root.id].nutrients["_" + nutrient.className.split("_")[1].split(" ")[0]] * factor;
+        var nutId = "_" + nutrient.className.split("_")[1].split(" ")[0]
+        var value = fcen[root.id].nutrients[nutId] * factor;
+        nutrient.getElementsByClassName("customValue")[0].innerHTML = value
+        if(anref[nutId])
+        {
+            var dailyNeed = anref[nutId][document.getElementById("anrefCategories").value];
+            nutrient.getElementsByClassName("customPercentage")[0].innerHTML = Math.round((value*100)/dailyNeed) + "%";
+        }
     }
 }
 
@@ -183,6 +195,26 @@ function hideNutrient()
     else
     {
         document.head.getElementsByClassName(nutId)[0].remove();
+    }
+}
+
+function changeAnrefCat()
+{
+    for(var nutId in anref)
+    {
+        var dailyNeed = anref[nutId][document.getElementById("anrefCategories").value];
+        var nutrients = document.getElementsByClassName(nutId);
+        for(var i=0; i < nutrients.length; i++)
+        {
+            nutrient = nutrients[i];
+            var value = fcen[nutrient.closest(".aliment").id].nutrients[nutId]
+            nutrient.getElementsByClassName("percentage")[0].innerHTML = Math.round((value*100)/dailyNeed) + "%";
+        }
+    }
+    var aliments = document.getElementsByClassName("aliment");
+    for(var i=0; i<aliments.length; i++)
+    {
+        updateMeasure(aliments[i]);
     }
 }
 

@@ -49,7 +49,7 @@ function fcenSearch(res)
     head += "var measureHtml = '" + minify(fs.readFileSync("measure.html").toString()) + "';";
     head += "</script>"
 
-    var page = htmlPage(["mustache.js", "fcen.js", "nutrientNames.js", "nutrientGroups.js", "fcenSearch.js"], ["styles.css"], head, "");
+    var page = htmlPage(["mustache.js", "fcen.js", "nutrientNames.js", "nutrientGroups.js", "fcenSearch.js", "anref.js"], ["styles.css"], head, "");
 
     fs.writeFileSync("../danodz.github.io/index.html", page);
     res.statusCode = 200;

@@ -78,3 +78,13 @@ input
     margin-top: 3px;
     height: 40px;
 }
+
+.nutrient .percentage
+{
+    float: right;
+}
+
+.nutrient .customPercentage
+{
+    float: right;
+}
