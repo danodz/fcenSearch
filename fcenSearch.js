@@ -12,12 +12,17 @@ for(var groupId in nutrientGroups)
 var alimHtml = "";
 for(var id in fcen)
 {
+    alimHtml += Mustache.render(alimentTemplate, alimentData(id));
+}
+
+function alimentData(id)
+{
     measures = "";
     for(var i=0; i<fcen[id].measures.length; i++)
     {
         measures += Mustache.render(measureHtml, fcen[id].measures[i]);
     }
-    alimHtml += Mustache.render(alimentTemplate, {id : id, name : fcen[id].name, measures : measures});
+    return {id : id, name : fcen[id].name, measures : measures}
 }
 
 function nutrientValueHtml(alimId, nutId)
@@ -216,6 +221,49 @@ function changeAnrefCat()
     {
         updateMeasure(aliments[i]);
     }
+}
+
+function addBilanItem()
+{
+    var root = event.target.closest(".aliment");
+    var id = root.id
+
+    document.getElementsByClassName("bilan")[0].innerHTML += Mustache.render(bilanItemTemplate, alimentData(id));
+}
+
+function removeBilanItem()
+{
+    var root = event.target.closest(".aliment");
+    console.log(root);
+    var id = root.id
+    console.log(id);
+
+    document.getElementById(id).remove();
+    console.log(document.getElementById("bilan_"+id));
+}
+
+function download(filename, text)
+{
+    var element = document.createElement('a');
+    element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
+    element.setAttribute('download', filename);
+    element.style.display = 'none';
+    document.body.appendChild(element);
+    element.click();
+    document.body.removeChild(element);
+}
+
+function downloadBilanAlimentheque()
+{
+    var file = "";
+    var bilan = document.getElementsByClassName("bilan")[0];
+    for(var i = 0; i<bilan.childElementCount; i++)
+    {
+        file += Mustache.render(alimenthequeItemTemplate, {id: bilan.children[i].id.split("_")[1], measure: bilan.children[i].getElementsByClassName("measure")[0].value});
+        file += "\n";
+    }
+
+    download("bilan.bil",file);
 }
 
 document.addEventListener('DOMContentLoaded', function() {

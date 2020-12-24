@@ -28,6 +28,22 @@ input
     cursor: pointer;
 }
 
+.aliments
+{
+    width: 60%;
+}
+
+.bilan
+{
+    width: 37%;
+    float: right;
+}
+
+.basicInfo .name
+{
+    margin-bottom: 5px;
+}
+
 .nutrient
 {
     background: #e6e6e6;

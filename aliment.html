@@ -1,13 +1,14 @@
 <div id="{{id}}" class="area aliment">
     <div class="basicInfo">
+        <div class="name">
+            {{name}}
+        </div>
+        <div onclick="addBilanItem()" class="button inline">+</div>
         <div onclick="toggleNuts()" class="button showNuts inline">
             Valeur nutritive
         </div>
         <input class="measure" value="100" onkeyup="measureInput()">g
         {{{measures}}}
-        <div class="name inline">
-            {{name}}
-        </div>
     </div>
     <div class="nutritionShow">
     </div>

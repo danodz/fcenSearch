@@ -1,0 +1,1 @@
+ceciestunbonfichieralimentheque		VN2020-10-02 08:51:41 KFESRZSU	CAN{{id}}		{{measure}}			170	CHANGE ME	1					2020-10-02 08:51:41			70	NOR2006-07-19 20:36:07 YBBTQHRX	NOM		kg	cm	f	29	Niveau 1 : Sédentaire					1	0														100	100	100	100	100	100	100	100	100	100	100	100	100	100	100	100	100			canada			   		iom	normal	100			1	1				total

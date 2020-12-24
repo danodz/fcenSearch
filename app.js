@@ -23,7 +23,7 @@ const minify = function(str)
     });
 }
 
-const hostname = '127.0.0.1';
+const hostname = '192.168.0.148';
 const port = 3000;
 
 const server = http.createServer((req, res) => {
@@ -47,6 +47,8 @@ function fcenSearch(res)
     head += "var nutrientGroupTemplate = '" + minify(fs.readFileSync("nutrientGroup.html").toString()) + "';";
     head += "var searchHtml = '" + minify(fs.readFileSync("search.html").toString()) + "';";
     head += "var measureHtml = '" + minify(fs.readFileSync("measure.html").toString()) + "';";
+    head += "var bilanItemTemplate = '" + minify(fs.readFileSync("bilanItemTemplate.html").toString()) + "';";
+    head += "var alimenthequeItemTemplate = '" + fs.readFileSync("alimenthequeItemTemplate.txt").toString() + "';";
     head += "</script>"
 
     var page = htmlPage(["mustache.js", "fcen.js", "nutrientNames.js", "nutrientGroups.js", "fcenSearch.js", "anref.js"], ["styles.css"], head, "");
