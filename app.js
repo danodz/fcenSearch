@@ -23,7 +23,7 @@ const minify = function(str)
     });
 }
 
-const hostname = '192.168.0.148';
+const hostname = '127.0.0.1';
 const port = 3000;
 
 const server = http.createServer((req, res) => {
